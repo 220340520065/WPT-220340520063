@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener('DOMContentLoaded',()=>
+        {
+           let booksdata=[{bookid:1,bookName:"c language",bookPrice:500},{bookid:2,bookName:"c++ language",bookPrice:300},{bookid:3,bookName:"Java language",bookPrice:700},{bookid:4,bookName:"Data Base technology",bookPrice:600},{bookid:5,bookName:"Web programming Technology",bookPrice:350}];
+
+           function addtobooklist(inputDetails)
+           {
+               let op=false;
+               booksdata.push(inputDetails);
+               op=true;
+               return op;
+              
+           }
+
+           function showContent()
+           {
+               let content=" "
+               for(let i=0;i<booksdata.length;i++)
+               {
+                   content+="<br> "+booksdata[i].bookid+" "+booksdata[i].bookName+" "+booksdata[i].bookPrice;
+                   document.querySelector('#para').innerHTML=content;
+               }
+           }
+
+           function check(inputId)
+           {
+               let op=false;
+               for(let i=0;i<booksdata.length;i++)
+               {
+                   if(inputId==booksdata[i].bookid)
+                   {
+                      op=true;
+                      document.querySelector('#name').value=booksdata[i].bookName;
+                      document.querySelector('#price').value=booksdata[i].bookPrice;
+                      break;
+                   }
+               }
+               return op;
+           }
+
+           const bookId=document.querySelector('#id');
+           bookId.addEventListener('blur',()=>
+           {
+              let inputId=bookId.value;
+              let output=check(inputId);
+
+              if(output)
+              {
+                    document.querySelector('#msg').innerHTML="book is already present";
+                    document.querySelector('#bt').disabled=true;
+                    showContent();
+              }
+              else
+              {
+                document.querySelector('#msg').innerHTML="book is not present we can add";
+
+                    document.querySelector('#bt').disabled=false;
+                    document.querySelector('#name').value=" ";
+                      document.querySelector('#price').value=" ";
+              }
+
+           })//blur
+
+           const addToList=document.querySelector('#bt');
+           addToList.addEventListener('click',()=>
+           {
+               let inputDetails={bookid:document.querySelector('#id').value,bookName:document.querySelector('#name').value,bookPrice:document.querySelector('#price').value};
+              
+               let ip=addtobooklist(inputDetails);
+               if(ip)
+               {
+                document.querySelector('#msg').innerHTML="added successfully";
+                    document.querySelector('#bt').disabled=true;
+                   showContent();
+               }
+           })
+
+        });//main
+
+
+
+    </script>
+</head>
+<body>
+   Book-id: <input type="text" placeholder="Book-id" id="id">
+   <span id="msg"></span>
+    <br><br>
+   Book name: <input type="text" placeholder="book name" id="name">
+    <br><br>
+   Price :<input type="text" placeholder="price" id="price">
+    <br><br>
+    <input type="button" value="add a book" disabled id="bt">
+
+    <br><br>
+    <p id="para"></p>
+</body>
+</html>
